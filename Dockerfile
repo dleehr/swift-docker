@@ -39,4 +39,8 @@ RUN curl -SLO $SWIFT_SIGNATURE \
   && tar xzf $SWIFT_DIST_TGZ \
   && rm $SWIFT_DIST_TGZ $SWIFT_DIST_SIG
 
+RUN useradd -m swift
+USER swift
+WORKDIR /home/swift
+
 ENV PATH $SWIFT_HOME/$SWIFT_DIST/usr/bin:$PATH
