@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
   curl \
   clang \
   libedit2 \
-  libicu52
+  libicu52 \
+  libpython2.7
 
 # Version variables
 ENV SWIFT_BUILDS_DIR ubuntu1404
