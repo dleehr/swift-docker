@@ -25,10 +25,14 @@ ENV SWIFT_SIGNATURE https://swift.org/builds/${SWIFT_BUILDS_DIR}/swift-${SWIFT_V
 
 # install dir
 ENV SWIFT_HOME /opt/swift
+RUN mkdir -p $SWIFT_HOME
+RUN useradd -m swift
+RUN chown -R swift $SWIFT_HOME
+
+USER swift
 
 RUN wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
 RUN gpg --keyserver hkp://pool.sks-keyservers.net --refresh-keys Swift
-RUN mkdir -p $SWIFT_HOME
 
 WORKDIR $SWIFT_HOME
 
@@ -39,8 +43,7 @@ RUN curl -SLO $SWIFT_SIGNATURE \
   && tar xzf $SWIFT_DIST_TGZ \
   && rm $SWIFT_DIST_TGZ $SWIFT_DIST_SIG
 
-RUN useradd -m swift
-USER swift
+ENV PATH $SWIFT_HOME/$SWIFT_DIST/usr/bin:$PATH
+
 WORKDIR /home/swift
 
-ENV PATH $SWIFT_HOME/$SWIFT_DIST/usr/bin:$PATH
